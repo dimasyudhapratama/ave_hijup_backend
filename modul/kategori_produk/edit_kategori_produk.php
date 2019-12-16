@@ -6,9 +6,9 @@ if(isset($_POST['btnSimpan'])){
 
     $update = mysqli_query($koneksi, "UPDATE kategori set namakategori='$nama_kategori', deskripsikategori='$deskripsi' WHERE kategoriID='$id'");
     if($update){
-        echo "<script>window.location.href='?pages=kategori_produk&add_stat=true'</script>";
+        echo "<script>window.location.href='?pages=edit_kategori_produk&edit_stat=1'</script>";
     }else{
-        echo "<script>window.location.href='?pages=kategori_produk&add_stat=false'</script>";
+        echo "<script>window.location.href='?pages=edit_kategori_produk&edit_stat=0'</script>";
     }
 }
 if(isset($_GET['id'])){
@@ -24,6 +24,17 @@ if(isset($_GET['id'])){
             <h6 class="m-0 font-weight-bold text-primary"> Edit Kategori Produk</h6>
         </div>
         <div class="card-body">
+        <?php
+            if(isset($_GET['edit_stat'])){
+                if($_GET['edit_stat']==1){
+                    echo "<div class='alert alert-success'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>Data Berhasil Diubah!!</div>";
+                }else if($_GET['edit_stat']==0){
+                    echo "<div class='alert alert-danger'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>Data Gagal Diubah!!</div>";
+                }
+            }
+        ?>
             <form action="" method="post">
                 <?php if(isset($_GET['id'])){ ?>
                 <div class="row">

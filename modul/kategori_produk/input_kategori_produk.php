@@ -5,9 +5,9 @@ if(isset($_POST['btnSimpan'])){
 
     $insert = mysqli_query($koneksi, "INSERT INTO kategori (namakategori,deskripsikategori) VALUES ('$nama_kategori','$deskripsi')");
     if($insert){
-        echo "<script>window.location.href='?pages=kategori_produk&add_stat=true'</script>";
+        echo "<script>window.location.href='?pages=input_kategori_produk&add_stat=1'</script>";
     }else{
-        echo "<script>window.location.href='?pages=kategori_produk&add_stat=false'</script>";
+        echo "<script>window.location.href='?pages=input_kategori_produk&add_stat=0'</script>";
     }
 }
 ?>
@@ -18,6 +18,22 @@ if(isset($_POST['btnSimpan'])){
             <h6 class="m-0 font-weight-bold text-primary"> Input Kategori Produk</h6>
         </div>
         <div class="card-body">
+            <?php
+            if(isset($_GET['add_stat'])){
+                if($_GET['add_stat']==1){
+                    echo "<div class='alert alert-success'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>Data Berhasil Ditambahkan!!</div>";
+                }else if($_GET['add_stat']==0){
+                    if(isset($_GET['message'])){
+                        echo "<div class='alert alert-danger'>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>".$_GET['message']."</div>";
+                    }else{
+                        echo "<div class='alert alert-danger'>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>Data Gagal Ditambahkan!!</div>";
+                    }
+                }
+            }
+            ?>
             <form action="" method="post">
                 <div class="row">
                     <div class="form-group col-md-4">

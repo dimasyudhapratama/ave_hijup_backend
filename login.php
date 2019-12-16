@@ -1,13 +1,35 @@
 <?php
-  include 'config/koneksi.php';
-  if(isset($_SESSION['userID'])){
-      header("location: index.php");
+session_start();
+include 'config/koneksi.php';
+if (isset($_SESSION['userID'])) {
+  header("location: index.php");
+}
+
+if (isset($_POST['btnLogin'])) {
+  $email = mysqli_real_escape_string($koneksi, $_POST['email']);
+  $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+
+  $query = mysqli_query($koneksi, "SELECT userID, nama, user.level, user.password, user.user_status FROM user WHERE email='$email'");
+  if(mysqli_num_rows($query) == 1){
+    // echo "<script>alert('Data Ada')</script>";
+    while($data = mysqli_fetch_array($query)){
+      if(password_verify($password,$data['password']) && $data['level'] == "Admin" && $data['user_status'] == "1"){
+        // echo "<script>alert('Password Sama')</script>";
+        $_SESSION['userID'] = $data['userID'];
+        $_SESSION['nama'] = $data['nama'];
+        header("location: index.php");
+      }else {
+        header("location: login.php?message=error");    
+      }
+    }
+
+  }else{
+    header("location: login.php?message=error");
   }
 
-  if(isset($_POST['btnLogin'])){
-    echo "<script>alert('TES')</script>";
-    header("location: index.php");
-  }
+
+  
+}
 
 ?>
 <!DOCTYPE html>
@@ -51,15 +73,22 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
+                  <?php 
+                  if(isset($_GET['message'])){
+                    echo "<div class='alert alert-danger'>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>Username / Password Salah</div>";
+                  }
+                  ?>
                   <form class="user" method="POST" action="">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="exampleInputUsername" placeholder="Masukkan Username" required="">
+                      <input type="email" class="form-control form-control-user" id="exampleInputUsername" name="email" placeholder="Masukkan Email" required="">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Masukkan Password" required="">
+                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Masukkan Password" required="">
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block" name="btnLogin">Login</button>
-                    <hr>
+                  </form>
+                  <hr>
                 </div>
               </div>
             </div>

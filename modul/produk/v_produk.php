@@ -1,11 +1,11 @@
 <?php
 if(isset($_GET['delete'])){
     $id = $_GET['delete'];
-    $delete = mysqli_query($koneksi, "DELETE FROM kategori WHERE kategoriID='$id'");
+    $delete = mysqli_query($koneksi, "DELETE FROM produk WHERE produkID='$id'");
     if($delete){
-        echo "<script>window.location.href='?pages=kategori_produk&delete_stat=1'</script>";
+        echo "<script>window.location.href='?pages=produk&delete_stat=1'</script>";
     }else{
-        echo "<script>window.location.href='?pages=kategori_produk&delete_stat=0'</script>";
+        echo "<script>window.location.href='?pages=produk&delete_stat=0'</script>";
     }
 }
 
@@ -14,7 +14,7 @@ if(isset($_GET['delete'])){
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"> Kategori Produk</h6>
+            <h6 class="m-0 font-weight-bold text-primary"> Produk</h6>
         </div>
         <div class="card-body">
         <?php
@@ -28,30 +28,35 @@ if(isset($_GET['delete'])){
                 }
             }
         ?>
-            <a href="?pages=input_kategori_produk" class="btn btn-sm btn-primary mb-3 float-right">Tambah Kategori</a>
+            <a href="?pages=input_produk" class="btn btn-sm btn-primary mb-3 float-right">Tambah Produk</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th class="text-center">No.</th>
-                            <th class="text-center">Nama Kategori</th>
-                            <th class="text-center">Desc</th>
+                            <th class="text-center">Nama Produk</th>
+                            <th class="text-center">Harga</th>
+                            <th class="text-center">Stok</th>
+                            <th class="text-center">Kategori</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
-                        $query = mysqli_query($koneksi, "SELECT * FROM kategori");
+                        $query = mysqli_query($koneksi, "SELECT produkID, namaproduk, deskripsiproduk, harga, jumlah, GambarProduk, jenisproduk, warnaproduk, kategori.namakategori FROM `produk` JOIN kategori ON kategori.kategoriID = produk.kategoriID");
                         while($i = mysqli_fetch_array($query)){
                         ?>
                         <tr>
                             <td class="text-center" style="width: 10px;"><?php echo $no++.'.'; ?></td>
-                            <td><?php echo $i['namakategori']; ?></td>
-                            <td><?php echo $i['deskripsikategori']; ?></td>
+                            <td><?php echo $i['namaproduk']; ?></td>
+                            <td><?php echo $i['harga']; ?></td>
+                            <td><?php echo $i['jumlah'] ?></td>
+                            <td><?php echo $i['namakategori'] ?></td>
                             <td class="text-center">
-                                <a class="btn btn-sm btn-success" href="?pages=edit_kategori_produk&id=<?php echo $i['kategoriID'] ?>"><i class="icofont-ui-edit"></i></a>
-                                <a class="btn btn-sm btn-danger" onclick="return confirm('Anda Yakin Untuk Menghapus Data?')" href="?pages=kategori_produk&delete=<?php echo $i['kategoriID'] ?>"><i class="icofont-trash"></i></a>
+                                <a class="btn btn-sm btn-warning" href="?pages=detail_produk&id=<?php echo $i['produkID'] ?>"><i class="icofont-eye"></i></a>
+                                <a class="btn btn-sm btn-success" href="?pages=edit_produk&id=<?php echo $i['produkID'] ?>"><i class="icofont-ui-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" onclick="return confirm('Anda Yakin Untuk Menghapus Data?')" href="?pages=produk&delete=<?php echo $i['produkID'] ?>"><i class="icofont-trash"></i></a>
                             </td>
                         </tr>
                         <?php } ?>
