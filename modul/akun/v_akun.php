@@ -2,7 +2,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"> Akun</h6>
+            <h6 class="m-0 font-weight-bold text-primary"> Akun Admin</h6>
         </div>
         <div class="card-body">
         <?php
@@ -44,7 +44,7 @@
                     <tbody>
                         <?php
                         $no = 1;
-                        $query = mysqli_query($koneksi, "SELECT * FROM user");
+                        $query = mysqli_query($koneksi, "SELECT * FROM user WHERE user.level='Admin'");
                         while($i = mysqli_fetch_array($query)){
                         ?>
                         <tr>

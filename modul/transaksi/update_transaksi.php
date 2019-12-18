@@ -2,16 +2,11 @@
 if(isset($_POST['btnSimpan'])){
     $transaksiID = mysqli_real_escape_string($koneksi, $_POST['transaksiID']);
     $status_pembayaran = mysqli_real_escape_string($koneksi, $_POST['status_pembayaran']);
-    // if($_POST['kurir'] = ""){
-    //     $kurir = "";
-    // }else{
-        
-    // }
     $kurir = mysqli_real_escape_string($koneksi, $_POST['kurir']);
     $no_resi = mysqli_real_escape_string($koneksi, $_POST['no_resi']);
     $status_pengiriman = mysqli_real_escape_string($koneksi, $_POST['status_pengiriman']);
 
-    $update = mysqli_query($koneksi, "UPDATE transaksi SET status_pembayaran='$status_pembayaran', kurir_pengiriman='$kurir', no_resi='$no_resi', status_pengiriman='$status_pengiriman'");
+    $update = mysqli_query($koneksi, "UPDATE transaksi SET status_pembayaran='$status_pembayaran', kurir_pengiriman='$kurir', no_resi='$no_resi', status_pengiriman='$status_pengiriman' WHERE transaksiID='$transaksiID'");
     if($update){
         echo "<script>window.location.href='?pages=update_transaksi&transaksiID=".$transaksiID."&edit_stat=1'</script>";
     }else{
@@ -64,20 +59,20 @@ if(isset($_POST['btnSimpan'])){
                     <div class="form-group col-md-4">
                         <label for="">Kurir Pengiriman</label>
                         <select name="kurir" id="kurir" class="form-control">
-                            <option value="">Pilih</option>
-                            <option value="JNE">JNE</option>
-                            <option value="TIKI">TIKI</option>
-                            <option value="J&T">J&T</option>
-                            <option value="POS">POS</option>
-                            <option value="SiCepat">SiCepat</option>
-                            <option value="Wahana">Wahana</option>
+                            <option value="" <?php if($data['kurir_pengiriman'] == ""){echo "Selected";} ?>>Pilih</option>
+                            <option value="JNE" <?php if($data['kurir_pengiriman'] == "JNE"){echo "Selected";} ?>>JNE</option>
+                            <option value="TIKI" <?php if($data['kurir_pengiriman'] == "TIKI"){echo "Selected";} ?>>TIKI</option>
+                            <option value="J&T" <?php if($data['kurir_pengiriman'] == "J&T"){echo "Selected";} ?>>J&T</option>
+                            <option value="POS" <?php if($data['kurir_pengiriman'] == "POS"){echo "Selected";} ?>>POS</option>
+                            <option value="SiCepat" <?php if($data['kurir_pengiriman'] == "SiCepat"){echo "Selected";} ?>>SiCepat</option>
+                            <option value="Wahana" <?php if($data['kurir_pengiriman'] == "Wahana"){echo "Selected";} ?>>Wahana</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="">No Resi</label>
-                        <input type="text" class="form-control" name="no_resi" id="no_resi" value="<?php echo $data['no_resi'] ?>" required>
+                        <input type="text" class="form-control" name="no_resi" id="no_resi" value="<?php echo $data['no_resi'] ?>">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Status Pengiriman</label>

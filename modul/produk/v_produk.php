@@ -38,13 +38,14 @@ if(isset($_GET['delete'])){
                             <th class="text-center">Harga</th>
                             <th class="text-center">Stok</th>
                             <th class="text-center">Kategori</th>
+                            <th class="text-center">Best Seller</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
-                        $query = mysqli_query($koneksi, "SELECT produkID, namaproduk, deskripsiproduk, harga, jumlah, GambarProduk, jenisproduk, warnaproduk, kategori.namakategori FROM `produk` JOIN kategori ON kategori.kategoriID = produk.kategoriID");
+                        $query = mysqli_query($koneksi, "SELECT produkID, namaproduk, deskripsiproduk, harga, jumlah, GambarProduk, jenisproduk, warnaproduk, kategori.namakategori, best_seller_status FROM `produk` JOIN kategori ON kategori.kategoriID = produk.kategoriID");
                         while($i = mysqli_fetch_array($query)){
                         ?>
                         <tr>
@@ -53,6 +54,13 @@ if(isset($_GET['delete'])){
                             <td><?php echo $i['harga']; ?></td>
                             <td><?php echo $i['jumlah'] ?></td>
                             <td><?php echo $i['namakategori'] ?></td>
+                            <td class="text-center">
+                                <?php
+                                    if($i['best_seller_status'] == '1'){
+                                        echo "<span class='badge badge-pill badge-primary'>Tampil</span>";
+                                    }
+                                ?>
+                            </td>
                             <td class="text-center">
                                 <a class="btn btn-sm btn-warning" href="?pages=detail_produk&id=<?php echo $i['produkID'] ?>"><i class="icofont-eye"></i></a>
                                 <a class="btn btn-sm btn-success" href="?pages=edit_produk&id=<?php echo $i['produkID'] ?>"><i class="icofont-ui-edit"></i></a>

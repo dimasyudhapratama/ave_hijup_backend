@@ -22,8 +22,8 @@ $transaksiID = $_GET['transaksiID'];
         </div>
         <div class="card-body">
             <?php 
-                $query = mysqli_query($koneksi, "SELECT transaksiID, user.userID, user.nama, total_pembayaran, tgl_transaksi, transaksi.alamat, transaksi.kode_pos, metode_pembayaran, gbrbukti_pembayaran, 
-                status_pembayaran, kurir_pengiriman ,no_resi, status_pengiriman  FROM transaksi LEFT JOIN user ON transaksi.userID = user.userID WHERE transaksiID='$transaksiID'");
+                $query = mysqli_query($koneksi, "SELECT transaksiID, user.userID, user.nama, total_pembayaran, tgl_transaksi, transaksi.alamat, transaksi.kode_pos, 
+                deadline_pembayaran ,metode_pembayaran, gbrbukti_pembayaran, status_pembayaran, kurir_pengiriman ,no_resi, status_pengiriman  FROM transaksi LEFT JOIN user ON transaksi.userID = user.userID WHERE transaksiID='$transaksiID'");
                 while($i = mysqli_fetch_array($query)){
             ?>
             <div class="row">
@@ -50,9 +50,10 @@ $transaksiID = $_GET['transaksiID'];
                 </div>
             </div>
             <div class="row">
-                
-            </div>
-            <div class="row">
+                <div class="col-md-4 form-group">   
+                    <label for="" style="font-weight: bold">Deadline Pembayaran</label>
+                    <input type="text" class="form-control-plaintext" value="<?php echo $i['deadline_pembayaran']; ?>" readonly>
+                </div>
                 <div class="col-md-4 form-group">   
                     <label for="" style="font-weight: bold">Metode Pembayaran</label>
                     <input type="text" class="form-control-plaintext" value="<?php echo $i['metode_pembayaran']; ?>" readonly>
@@ -75,8 +76,6 @@ $transaksiID = $_GET['transaksiID'];
                     }
                     ?>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-4 form-group">
                     <label for="" style="font-weight:bold">Kurir Pengiriman</label>
                     <input type="text" class="form-control-plaintext" value="<?php echo $i['kurir_pengiriman']; ?>" readonly>

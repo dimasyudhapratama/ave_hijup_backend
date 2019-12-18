@@ -1,9 +1,9 @@
 <?php
 session_start();
 include 'config/koneksi.php';
-// if(!isset($_SESSION['userID'])){
-//   header("location: index.php");
-// }
+if(!isset($_SESSION['userID'])){
+  header("location: index.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -42,49 +42,55 @@ include 'config/koneksi.php';
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="?pages=dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+          <i class="icofont-grocery"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-2">Ave Hijup</div>
       </a>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <a class="nav-link" href="?pages=dashboard">
+          <i class="icofont-home"></i>
           <span>Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pages=akun">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Akun</span>
+          <i class="icofont-support"></i>
+          <span>Akun Admin</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="?pages=customer">
+          <i class="icofont-users-alt-3"></i>
+          <span>Customer</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pages=kategori_produk">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="icofont-bag"></i>
           <span>Kategori Produk</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pages=produk">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="icofont-grocery"></i>
           <span>Produk</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pages=testimoni">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="icofont-heart-eyes"></i>
           <span>Testimoni</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pages=transaksi">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="icofont-ui-note"></i>
           <span>Transaksi</span>
         </a>
       </li>
@@ -120,14 +126,14 @@ include 'config/koneksi.php';
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
-                <i class="icofont-waiter-alt" style="font-size:30px;"></i>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['nama']; ?></span>
+                <i class="icofont-user-alt-3" style="font-size:30px;"></i>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="icofont-gear fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Ubah Password
+                <a class="dropdown-item" href="?pages=profil">
+                  <i class="icofont-id fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profil
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -145,8 +151,14 @@ include 'config/koneksi.php';
         <!-- Begin Page Content -->
         <?php
         if (isset($_GET['pages'])) {
-          if ($_GET['pages'] == 'akun') { //Kategori Produk
+          if($_GET['pages']=='dashboard'){
+            include 'modul/dashboard/v_dashboard.php';
+          } else if($_GET['pages'] == 'profil'){
+            include 'modul/profil/v_profil.php';
+          } else if ($_GET['pages'] == 'akun') { //Akun
             include 'modul/akun/v_akun.php';
+          } else if($_GET['pages'] == 'customer'){ //Customer
+            include 'modul/customer/v_customer.php';
           } else if ($_GET['pages'] == 'input_akun') { //Input kategori produk
             include 'modul/akun/input_akun.php';
           } else if ($_GET['pages'] == 'operasi_akun') { //Edit Kategori Produk
@@ -163,7 +175,9 @@ include 'config/koneksi.php';
             include 'modul/produk/input_produk.php';
           } else if ($_GET['pages'] == 'edit_produk') { //Edit Produk
             include 'modul/produk/edit_produk.php';
-          } else if ($_GET['pages'] == 'testimoni') { //Testimoni
+          } else if($_GET['pages'] == 'detail_produk'){ //Detail Produk
+            include 'modul/produk/detail_produk.php';
+          }else if ($_GET['pages'] == 'testimoni') { //Testimoni
             include 'modul/testimoni/v_testimoni.php';
           } else if ($_GET['pages'] == 'operasi_testimoni') { //Operasi Testimoni
             include 'modul/testimoni/operasi_testimoni.php';
@@ -187,7 +201,7 @@ include 'config/koneksi.php';
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Ave Hijup 2019</span>
           </div>
         </div>
       </footer>
